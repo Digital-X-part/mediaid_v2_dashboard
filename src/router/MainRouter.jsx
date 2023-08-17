@@ -12,34 +12,36 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Dashboard />,
-  },
-  {
-    path: "/dashboard/add-product",
-    element: <AddProduct />,
-  },
-  {
-    path: "/dashboard/customers",
-    element: <Customers />,
-  },
-  {
-    path: "/dashboard/customers/:id",
-    element: <CustomerDetails />,
-  },
-  {
-    path: "/dashboard/orderList",
-    element: <OrderList />,
-  },
-  {
-    path: "/dashboard/orderList/:id",
-    element: <OrderDetails />,
-  },
-  {
-    path: "/dashboard/productList",
-    element: <ProductList />,
-  },
-  {
-    path: "/dashboard/productList/:id",
-    element: <ProductDetails />,
+    children: [
+      {
+        path: "add-product",
+        element: <AddProduct />,
+      },
+      {
+        path: "customers",
+        element: <Customers />,
+      },
+      {
+        path: "customers/:id",
+        element: <CustomerDetails />,
+      },
+      {
+        path: "orderList",
+        element: <OrderList />,
+      },
+      {
+        path: "orderList/:id",
+        element: <OrderDetails />,
+      },
+      {
+        path: "productList",
+        element: <ProductList />,
+      },
+      {
+        path: "productList/:id",
+        element: <ProductDetails />,
+      },
+    ],
   },
 ]);
 
