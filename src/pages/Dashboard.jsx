@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { BsFileMedical } from "react-icons/bs";
 import { FaRegListAlt, FaRegEdit, FaBars } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import ActiveLink from "../components/shared/ActiveLink";
 
 const dashboardRouteList = [
   {
@@ -30,7 +30,7 @@ const dashboardRouteList = [
 
 const DashBoard = () => {
   return (
-    <div >
+    <div>
       <div className="navbar bg-base-100 shadow-md">
         <div className="flex-1">
           <a className="text-xl uppercase font-serif font-bold text-violet-600">
@@ -57,7 +57,7 @@ const DashBoard = () => {
               <li>
                 <a className="justify-between">
                   Profile
-                  <span className="badge">New</span>
+                  <span className="badge text-blue-500">Admin</span>
                 </a>
               </li>
               <li>
@@ -82,9 +82,12 @@ const DashBoard = () => {
             {/* Sidebar content here */}
             {dashboardRouteList.map((dashboardRoute) => (
               <li>
-                <Link to={dashboardRoute.pathUrl}>
+                <ActiveLink
+                  to={dashboardRoute.pathUrl}
+                  activeClass={"bg-gray-300"}
+                  defaultClass="">
                   {dashboardRoute.icon} {dashboardRoute.pathName}
-                </Link>
+                </ActiveLink>
               </li>
             ))}
           </ul>
