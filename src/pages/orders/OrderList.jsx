@@ -84,9 +84,9 @@ const OrderList = () => {
                     <span className="flex flex-col">
                       <span className="p-0 text-violet-500 text-sm font-bold">
                         <Link
-                          to={`/dashboard/order-list/1`}
+                          to={`/orderList/1`}
                           className="text-blue-500 hover:underline">
-                          # 544549
+                          #544549
                         </Link>
                       </span>
                       <span className="p-0 font-semibold text-blue-500 ">
