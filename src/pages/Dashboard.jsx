@@ -80,8 +80,8 @@ const DashBoard = () => {
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
           <ul className="menu p-4 w-fit h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
-            {dashboardRouteList.map((dashboardRoute) => (
-              <li>
+            {dashboardRouteList.map((dashboardRoute, index) => (
+              <li key={index}>
                 <ActiveLink
                   to={dashboardRoute.pathUrl}
                   activeClass={"bg-gray-300"}
