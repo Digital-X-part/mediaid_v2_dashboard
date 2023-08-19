@@ -6,7 +6,7 @@ import { AiOutlineStop } from "react-icons/ai";
 import { MdDone } from "react-icons/md";
 import { TbCurrencyTaka } from "react-icons/tb";
 import { CgMenuMotion } from "react-icons/cg";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 const orderStatus = [
   {
     id: "s54dfds45f",
@@ -25,15 +25,43 @@ const orderStatus = [
     status: "onHold",
   },
 ];
+
 const OrderList = () => {
   const [actionButtonListOpen, setActionButtonListOpen] = useState("");
   const [isActionButtonListOpen, setIsActionButtonListOpen] = useState(false);
+  const modalRef = useRef(null);
   const actionHandleButton = (id) => {
     setActionButtonListOpen(id);
     setIsActionButtonListOpen(!isActionButtonListOpen);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsActionButtonListOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const setOrderStatusColor = (status) => {
+    if (status === "completed") {
+      return "bg-[#CCF6E4] text-[#00864e]";
+    } else if (status === "pending") {
+      return "bg-[#fde6d8] text-[#9d5228] ";
+    } else if (status === "processing") {
+      return "bg-[#d5e5fa] text-[#1c4f93] ";
+    } else {
+      return "bg-[#E3E6EA] text-[#7d899b] ";
+    }
+  };
+
   return (
-    <div className="border w-screen lg:w-full ">
+    <div className="border w-screen lg:w-full">
       <div className="p-4">
         <div className="overflow-x-auto">
           <table className="table table-compact ">
@@ -86,7 +114,7 @@ const OrderList = () => {
 
                   {orderList.status === "completed" && (
                     <td>
-                      <div className="flex items-center gap-x-1 bg-[#CCF6E4] text-[#00864e] rounded-lg tracking-wide px-2 py-1 font-bold">
+                      <div className="flex items-center justify-between gap-x-1 bg-[#CCF6E4] text-[#00864e] rounded-lg tracking-wide px-2 py-1 font-bold">
                         <p>Completed </p>
                         <MdDone size={15} color="#00864e" />
                       </div>
@@ -95,7 +123,7 @@ const OrderList = () => {
 
                   {orderList.status === "processing" && (
                     <td>
-                      <div className="flex items-center gap-1 bg-[#d5e5fa] text-[#1c4f93] rounded-lg tracking-wide px-2 py-1 font-bold">
+                      <div className="flex items-center justify-between gap-1 bg-[#d5e5fa] text-[#1c4f93] rounded-lg tracking-wide px-2 py-1 font-bold">
                         <p>Processing </p>
                         <TbReload size={15} color="#1c4f93" />
                       </div>
@@ -103,7 +131,7 @@ const OrderList = () => {
                   )}
                   {orderList.status === "pending" && (
                     <td>
-                      <div className="flex items-center gap-1 bg-[#fde6d8] text-[#9d5228] rounded-lg tracking-wide px-2 py-1 font-bold">
+                      <div className="flex items-center justify-between gap-1 bg-[#fde6d8] text-[#9d5228] rounded-lg tracking-wide px-2 py-1 font-bold">
                         <p>Pending </p>
                         <CgMenuMotion size={15} color="#00864e" />
                       </div>
@@ -111,7 +139,7 @@ const OrderList = () => {
                   )}
                   {orderList.status === "onHold" && (
                     <td>
-                      <div className="flex items-center gap-x-1 bg-[#E3E6EA] text-[#7d899b] rounded-lg tracking-wide px-2 py-1 font-bold">
+                      <div className="flex items-center justify-between gap-x-1 bg-[#E3E6EA] text-[#7d899b] rounded-lg tracking-wide px-2 py-1 font-bold">
                         <p>On Hold </p>
                         <AiOutlineStop size={15} color="#7d899b" />
                       </div>
@@ -131,19 +159,21 @@ const OrderList = () => {
                     </div>
                     {actionButtonListOpen === orderList.id &&
                       isActionButtonListOpen && (
-                        <div className="absolute z-30 bg-white -ml-32 mt-2 w-36 shadow-2xl border border-indigo-100 rounded-sm">
-                          <ul>
+                        <div ref={modalRef} className="relative">
+                          <ul className="absolute z-30 bg-white -top-4 left-0 -ml-[150px] w-36 shadow-2xl border-1 border-red-400 p-1 rounded-md ">
                             {orderStatus.map((status) => (
                               <li
                                 onClick={() => setIsActionButtonListOpen(false)}
                                 key={status.id}
-                                className="btn btn-warning btn-xs w-full hover:bg-transparent mb-1">
+                                className={`btn w-full ${setOrderStatusColor(
+                                  status.status
+                                )} btn-sm hover:bg-transparent mb-1`}>
                                 {status.status}
                               </li>
                             ))}
                             <button
                               onClick={() => setIsActionButtonListOpen(false)}
-                              className="btn btn-error btn-xs w-full hover:bg-transparent ">
+                              className="btn btn-error w-full btn-sm hover:bg-transparent ">
                               Delete
                             </button>
                           </ul>
