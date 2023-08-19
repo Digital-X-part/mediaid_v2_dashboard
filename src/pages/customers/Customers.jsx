@@ -14,7 +14,7 @@ const Customers = () => {
 
   return (
     <div className="h-fit bg-slate-50 rounded shadow-sm w-full">
-      {/* <div className="flex items-center justify-between px-4 py-2">
+      <div className="flex items-center justify-between px-4 py-2">
         <h1 className="text-base md:text-xl font-semibold text-gray-700">
           Customers
         </h1>
@@ -32,7 +32,7 @@ const Customers = () => {
             Export
           </FilterButton>
         </div>
-      </div> */}
+      </div>
       <div className="mt-4">
         <CustomerListTable users={users} />
       </div>

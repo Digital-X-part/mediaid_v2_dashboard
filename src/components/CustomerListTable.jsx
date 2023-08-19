@@ -83,7 +83,7 @@ const CustomerListTable = ({ users }) => {
                       />
                       <Link
                         title="Click to view details"
-                        to={`/dashboard/customers/${index}`}
+                        to={`/customers/${index}`}
                         className="text-sm font-medium text-gray-600 hover:underline hover:text-blue-500">
                         Bulbul Ahmed
                       </Link>
