@@ -2,7 +2,7 @@ import React from 'react';
 
 const CompareActivity = () => {
     return (
-        <div className="bg-sky-500 rounded-md px-4 py-6 min-w-[400px]">
+        <div className="bg-sky-500 rounded-md px-4 py-6 ">
                         <div className="flex justify-between">
                         <h1 className="text-base md:text-lg font-semibold text-white">Compare Activity to last 7 days</h1>
                         <select className="rounded outline-none px-2  bg-sky-500 shadow-md text-white text-sm"> 

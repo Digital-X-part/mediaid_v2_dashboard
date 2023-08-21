@@ -2,7 +2,7 @@ import React from 'react';
 
 const SalesActivity = () => {
     return (
-        <div className="bg-green-500 rounded-md px-4 py-6 min-w-[400px]">
+        <div className="bg-green-500 rounded-md px-4 py-6 ">
                         <div className="flex justify-between">
                         <h1 className="text-base md:text-lg font-semibold text-white">Today&apos;s Sales Activity</h1>
                         <select className="rounded outline-none px-2  bg-green-500 shadow-md text-white text-sm"> 
