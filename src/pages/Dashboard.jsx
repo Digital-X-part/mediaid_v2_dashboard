@@ -1,11 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { BsFileMedical } from "react-icons/bs";
-import { FaRegListAlt, FaRegEdit, FaBars } from "react-icons/fa";
+import { FaRegListAlt, FaRegEdit, FaBars, FaChartBar } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi";
 import ActiveLink from "../components/shared/ActiveLink";
 
 const dashboardRouteList = [
+  {
+    icon: <FaChartBar className="w-5 h-5" />,
+    pathUrl: "/",
+    pathName: "Overview",
+  },
   {
     icon: <FaRegListAlt className="w-5 h-5" />,
     pathUrl: "/productList",
@@ -81,11 +86,11 @@ const DashBoard = () => {
           <ul className="menu p-4 w-fit h-full bg-base-200 text-base-content">
             {/* Sidebar content here */}
             {dashboardRouteList.map((dashboardRoute, index) => (
-              <li key={index}>
+              <li key={index} className="mt-2">
                 <ActiveLink
                   to={dashboardRoute.pathUrl}
-                  activeClass={"bg-gray-300"}
-                  defaultClass="">
+                  activeClass={"bg-gray-300 font-semibold"}
+                  defaultClass="font-semibold">
                   {dashboardRoute.icon} {dashboardRoute.pathName}
                 </ActiveLink>
               </li>

@@ -7,12 +7,17 @@ import OrderList from "../pages/orders/OrderList";
 import OrderDetails from "../pages/orders/OrderDetails";
 import ProductList from "../pages/products/ProductList";
 import ProductDetails from "../pages/products/ProductDetails";
+import Overview from "../pages/overview/Overview";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Dashboard />,
     children: [
+      {
+        path: "/",
+        element: <Overview/>,
+      },
       {
         path: "add-product",
         element: <AddProduct />,
