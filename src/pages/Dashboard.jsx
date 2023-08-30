@@ -2,7 +2,6 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { BsFileMedical } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
-import { FaRegListAlt, FaRegEdit, FaBars } from "react-icons/fa";
 import { FaRegListAlt, FaRegEdit, FaBars, FaChartBar } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi";
 import ActiveLink from "../components/shared/ActiveLink";
