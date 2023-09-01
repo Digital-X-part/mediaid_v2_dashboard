@@ -9,27 +9,53 @@ const AddCategory = () => {
   const [currentSubcategory, setCurrentSubcategory] = useState("");
   // console.log({ currentSubcategory });
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     let cate = { name: category, sub: [subcategories] };
+  //     console.log(cate);
+  //     const data  = await axios.post(
+  //       `http://localhost:3000/api/categories`,
+  //       {
+  //         cate,
+  //       }
+  //     );
+
+  //     console.log({ data });
+  //     if (data) {
+  //       toast.success("Successfully toasted!");
+  //     }
+  //     setCategory("");
+  //     setCurrentSubcategory("");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      let category = [{ name: category }, { sub: subcategories }];
-      console.log(cate);
-      const { data } = await axios.post(
-        `http://localhost:3000/api/categories`,
-        {
-          category,
-        }
-      );
+    const { name, sub } = {
+      name: category,
+      sub: subcategories,
+    };
 
-      console.log({ data });
+    if (!name || !subcategories) {
+      return toast.error("Please enter a category name");
+    }
+
+    try {
+      const data = await axios.post(`http://localhost:3000/api/categories`, {
+        cate: { name, sub },
+      });
+
       if (data) {
         toast.success("Successfully toasted!");
       }
       setCategory("");
       setCurrentSubcategory("");
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
     }
   };
 
