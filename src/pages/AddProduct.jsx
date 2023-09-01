@@ -1,11 +1,30 @@
+import axios from "axios";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import Swal from "sweetalert2";
+import TextInput from "../components/input/TextInput";
+import { C_CLOUD_API_KEY, C_CLOUD_NAME, C_UPLOAD_PRESET } from "../utils/api";
 const AddProduct = () => {
   const [images, setImages] = useState([]);
-  const [sellingType, setSellingType] = useState("flash sale");
+  const [inputData, setInputData] = useState({
+    title: "",
+    brandName: "",
+    availableStock: "",
+    tag: "",
+    highlight: "",
+    regularPrice: "",
+    discountForRegularUser: 0,
+    discountForVipUser: 0,
+    description: '',
+    category: '',
+    subcategory: '',
+    typeOfSale: "flash sale",
+    isActive: "",
+    startDateOfFlashSale: "",
+    endDateOfFlashSale: "",
+  })
+
   /* Hooks */
   const {
     handleSubmit,
@@ -44,31 +63,58 @@ const AddProduct = () => {
 
   /* HandleOnSubmit */
   const onSubmit = async (data) => {
-    // try {
-    //   // upload images in to imgbb and get urls
-    //   const uploadedImageURLs = await Promise.all(
-    //     images.map(async (image) => await uploadImage(image.file))
-    //   );
-    //   const imagesUrls = uploadedImageURLs.map((image) => image.url);
-    //   console.log({ imagesUrls });
-    //   // send data to server
-    //   const productData = await axiosInstance.post("products", {
-    //     ...data,
-    //     imagesUrls,
-    //   });
-    //   console.log(data);
-    //   swal({
-    //     title: "Success!",
-    //     text: "Product added successfully!",
-    //     icon: "success",
-    //     timer: 2000,
-    //   });
-    //   // reset form
-    //   setImages([]);
-    //   reset();
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    if (
+      // check invalid from data
+      !inputData.title.trim() ||
+      !inputData.brandName.trim() ||
+      !inputData.availableStock.trim() ||
+      !inputData.tag.trim() ||
+      !inputData.regularPrice.trim() ||
+      !inputData.description.trim() ||
+      !inputData.category.trim() ||
+      !inputData.subcategory.trim() ||
+      !inputData.typeOfSale.trim() ||
+      !inputData.startDateOfFlashSale.trim() ||
+      !inputData.endDateOfFlashSale.trim() ||
+      !inputData.isActive.trim() ||
+      !images.length
+    ) {
+      // Show Error Toast for invalid data
+      console.log("Invalid Data")
+      return false;
+    }
+    // response  = ["img-url","img-url","img-url"...] 
+    const responseImages = await Promise.all(images.map(async (image) => {
+      const formData = new FormData();
+      formData.append("file", image.file);
+      formData.append("upload_preset", C_UPLOAD_PRESET); // Replace the preset name with your own
+      formData.append("api_key", C_CLOUD_API_KEY);
+      formData.append("cloud_name", C_CLOUD_NAME);
+      try {
+        const { data } = await axios.post(`https://api.cloudinary.com/v1_1/${C_CLOUD_NAME}/upload`, formData,)
+        return data.url
+      } catch (error) {
+        // error
+        return
+      }
+    }))
+    if (responseImages && responseImages.length) {
+      // submit to add new product
+      console.log(inputData)
+      console.log(responseImages)
+
+      try {
+        // const { data } = await axios.post(`${base_api_url}/api/product`, { ...inputData, images: responseImages })
+        // if (data.success) {
+        // toast added product
+        // }
+        // toast product added error
+      } catch (error) {
+        // toast product added error
+      }
+      reset();
+      setImages([]);
+    }
   };
 
   return (
@@ -87,12 +133,7 @@ const AddProduct = () => {
               Product name:
             </label>
             <div className="relative">
-              <input
-                type="text"
-                name="productName"
-                {...register("productName", { required: true })}
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+              <TextInput register={register} onChange={({ target }) => setInputData(s => ({ ...s, title: target.value }))} name="productName" />
               {errors?.productName && (
                 <span className="block text-xs text-red-500">
                   {errors?.productName.type === "required" &&
@@ -108,12 +149,7 @@ const AddProduct = () => {
               Brand Name:
             </label>
             <div className="relative">
-              <input
-                type="text"
-                name="brandName"
-                {...register("brandName")}
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+              <TextInput register={register} onChange={({ target }) => setInputData(s => ({ ...s, brandName: target.value }))} name="brandName" />
             </div>
           </div>
           <div className="mb-2">
@@ -123,12 +159,7 @@ const AddProduct = () => {
               Available Stock:
             </label>
             <div className="relative">
-              <input
-                type="number"
-                name="availableStock"
-                {...register("availableStock", { required: true })}
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+              <TextInput type="number" register={register} onChange={({ target }) => setInputData(s => ({ ...s, availableStock: target.value }))} name="availableStock" />
               {errors?.availableStock && (
                 <span className="block text-xs text-red-500">
                   {errors?.availableStock.type === "required" &&
@@ -146,14 +177,9 @@ const AddProduct = () => {
               Add a Tags:
             </label>
             <div className="relative">
-              <input
-                {...register("tags")}
-                id="tags"
-                type="text"
-                name="tags"
-                placeholder="new, arrival, new arrival, feature product, popular product, push product"
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+              <TextInput register={register}
+                onChange={({ target }) => setInputData(s => ({ ...s, tag: target.value }))}
+                name="tags" placeholder={"new, arrival, new arrival, feature product, popular product, push product"} />
             </div>
           </div>
           {/* Highlights */}
@@ -162,16 +188,12 @@ const AddProduct = () => {
               Give Highlights with comma:
             </label>
             <div className="relative">
-              <input
-                {...register("highlights")}
-                id="highlights"
-                type="text"
+              <TextInput register={register}
+                onChange={({ target }) => setInputData(s => ({ ...s, highlight: target.value }))}
                 name="highlights"
                 placeholder="Water Proof: Yes,
                   Shape: Round,
-                  Country of Origin: Japan"
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+                  Country of Origin: Japan"/>
             </div>
           </div>
           <div className="mt-2">
@@ -179,12 +201,9 @@ const AddProduct = () => {
               Base Price:
             </label>
             <div className="relative">
-              <input
-                type="number"
-                name="basePrice"
-                {...register("basePrice", { required: true })}
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+              <TextInput type="number" register={register}
+                onChange={({ target }) => setInputData(s => ({ ...s, regularPrice: target.value }))}
+                name="availableStock" />
               {errors?.basePrice && (
                 <span className="block text-xs text-red-500">
                   {errors?.basePrice.type === "required" &&
@@ -197,31 +216,37 @@ const AddProduct = () => {
             <label
               htmlFor="discountInPercentage"
               className="block text-neutral-600 mb-1">
-              Discount in percentage:
+              Regular User Discount -% :
             </label>
             <div className="relative">
-              <input
-                type="number"
-                name="discountInPercentage"
-                {...register("discountInPercentage")}
-                readOnly
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
-              />
+              <TextInput type="number" register={register}
+                onChange={({ target }) => setInputData(s => ({ ...s, discountForRegularUser: target.value }))}
+                name="discountInPercentage" placeholder="0%" />
+            </div>
+          </div>
+          <div className="mt-2">
+            <label
+              htmlFor="discountInPercentage"
+              className="block text-neutral-600 mb-1">
+              Vip User Discount -% :
+            </label>
+            <div className="relative">
+              <TextInput type="number" register={register}
+                onChange={({ target }) => setInputData(s => ({ ...s, discountForVipUser: target.value }))}
+                name="discountInPercentage" placeholder="0%" />
             </div>
           </div>
           <div className="mt-2">
             <label
               htmlFor="productName"
               className="block text-neutral-600 mb-1">
-              Final price:
+              Check Final price:
             </label>
             <div className="relative">
-              <input
-                type="number"
-                name="finalPrice"
-                {...register("finalPrice")}
-                className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2 bg-slate-200"
-              />
+              <div className="flex items-center  gap-2">
+                <span className="flex-1 bg-gray-200 py-1 rounded px-1">For Regular: 0</span>
+                <span className="flex-1 bg-gray-200 py-1 rounded px-1">For VIP: 0</span>
+              </div>
             </div>
           </div>
         </div>
@@ -295,6 +320,7 @@ const AddProduct = () => {
             </p>
             <textarea
               {...register("productDescription")}
+              onChange={({ target }) => setInputData(s => ({ ...s, description: target.value }))}
               className="w-[99%] mt-2 outline-none border resize-none p-2 rounded-sm"
               name="productDescription"
               placeholder="Product description"
@@ -315,6 +341,7 @@ const AddProduct = () => {
               {/* //todo fetch category from db */}
               <select
                 {...register("category")}
+                onChange={({ target }) => setInputData(s => ({ ...s, category: target.value }))}
                 className="select select-bordered w-full max-w-xs mt-2">
                 <option disabled>Dinner or Gala</option>
                 <option>Computer & Accessories</option>
@@ -326,6 +353,7 @@ const AddProduct = () => {
               {/* //todo fetch subcategory according to category */}
               <select
                 {...register("subCategory")}
+                onChange={({ target }) => setInputData(s => ({ ...s, subcategory: target.value }))}
                 className="select select-bordered w-full max-w-xs mt-2">
                 <option disabled>Laptop</option>
                 <option>Concert or performance</option>
@@ -344,10 +372,9 @@ const AddProduct = () => {
               <select
                 id="sellingType"
                 {...register("sellingType")}
-                onChange={(e) => setSellingType(e.target.value)}
+                onChange={({ target }) => setInputData(s => ({ ...s, typeOfSale: target.value }))}
                 className="select select-bordered w-full max-w-xs mt-2">
                 <option disabled>Select one type</option>
-
                 <option value="flash sale">flash sale</option>
                 <option value="new arrival">new arrival</option>
                 <option value="feature product">feature product</option>
@@ -357,7 +384,7 @@ const AddProduct = () => {
             </div>
           </div>
         </div>
-        {sellingType === "flash sale" && (
+        {inputData.typeOfSale === "flash sale" && (
           <div className="rounded-md mt-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-2">
             <div>
               <label htmlFor="startDate">
@@ -367,6 +394,7 @@ const AddProduct = () => {
                 <input
                   type="datetime-local"
                   name="startDate"
+                  onChange={({ target }) => setInputData(s => ({ ...s, startDateOfFlashSale: target.value }))}
                   {...register("startDate", { required: true })}
                   className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
                 />
@@ -385,6 +413,7 @@ const AddProduct = () => {
               <div className="relative">
                 <input
                   type="datetime-local"
+                  onChange={({ target }) => setInputData(s => ({ ...s, endDateOfFlashSale: target.value }))}
                   name="endDate"
                   {...register("endDate", { required: true })}
                   className="w-full border-gray-300 border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-lg py-1 px-2"
@@ -405,6 +434,7 @@ const AddProduct = () => {
                   <input
                     type="radio"
                     id="active"
+                    onChange={({ target }) => setInputData(s => ({ ...s, isActive: target.value }))}
                     {...register("productStatus")}
                     value={"active"}
                     className="radio radio-sm"
@@ -417,6 +447,7 @@ const AddProduct = () => {
                   <input
                     type="radio"
                     id="inactive"
+                    onChange={({ target }) => setInputData(s => ({ ...s, isActive: target.value }))}
                     className="radio radio-sm"
                     {...register("productStatus")}
                     value={"inactive"}
@@ -429,6 +460,7 @@ const AddProduct = () => {
                   <input
                     type="radio"
                     id="starUser"
+                    onChange={({ target }) => setInputData(s => ({ ...s, isActive: target.value }))}
                     {...register("productStatus")}
                     className="radio radio-sm"
                     value={"starUser"}

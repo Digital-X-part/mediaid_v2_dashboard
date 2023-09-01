@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import { BsFileMedical } from "react-icons/bs";
+import { BiCategoryAlt } from "react-icons/bi";
 import { FaRegListAlt, FaRegEdit, FaBars, FaChartBar } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi";
 import ActiveLink from "../components/shared/ActiveLink";
@@ -20,6 +21,11 @@ const dashboardRouteList = [
     icon: <FaRegEdit className="w-5 h-5" />,
     pathUrl: "/add-product",
     pathName: "Add Product",
+  },
+  {
+    icon: <BiCategoryAlt className="w-5 h-5" />,
+    pathUrl: "/add-category",
+    pathName: "Add Category",
   },
   {
     icon: <BsFileMedical className="w-5 h-5" />,
