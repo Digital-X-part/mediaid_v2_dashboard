@@ -11,17 +11,26 @@ const AddCategory = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let cate = [{ name: category }, { sub: subcategories }];
-    console.log(cate);
-    const { data } = await axios.post(`http://localhost:3000/api/categories`, {
-      cate,
-    });
-    if (data) {
-      toast.success("Successfully toasted!");
-    }
 
-    setCategory("");
-    setCurrentSubcategory("");
+    try {
+      let category = [{ name: category }, { sub: subcategories }];
+      console.log(cate);
+      const { data } = await axios.post(
+        `http://localhost:3000/api/categories`,
+        {
+          category,
+        }
+      );
+
+      console.log({ data });
+      if (data) {
+        toast.success("Successfully toasted!");
+      }
+      setCategory("");
+      setCurrentSubcategory("");
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const handleAddSubcategory = () => {
