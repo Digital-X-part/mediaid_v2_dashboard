@@ -9,6 +9,7 @@ import ProductList from "../pages/products/ProductList";
 import ProductDetails from "../pages/products/ProductDetails";
 import AddCategory from "../pages/AddCategory";
 import Overview from "../pages/overview/Overview";
+import BannerEdit from "../pages/BannerEdit";
 
 const router = createBrowserRouter([
   {
@@ -17,7 +18,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Overview/>,
+        element: <Overview />,
+      },
+      {
+        path: "banner-edit",
+        element: <BannerEdit />,
       },
       {
         path: "add-product",

@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { BsFileMedical } from "react-icons/bs";
 import { BiCategoryAlt } from "react-icons/bi";
+import { RiEditCircleFill } from "react-icons/ri";
 import { FaRegListAlt, FaRegEdit, FaBars, FaChartBar } from "react-icons/fa";
 import { HiOutlineUsers } from "react-icons/hi";
 import ActiveLink from "../components/shared/ActiveLink";
@@ -36,6 +37,11 @@ const dashboardRouteList = [
     icon: <HiOutlineUsers className="w-5 h-5" />,
     pathUrl: "/customers",
     pathName: "Customers",
+  },
+  {
+    icon: <RiEditCircleFill className="w-5 h-5" />,
+    pathUrl: "/banner-edit",
+    pathName: "Banner Edit",
   },
 ];
 
