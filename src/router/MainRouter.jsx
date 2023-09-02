@@ -8,12 +8,22 @@ import OrderDetails from "../pages/orders/OrderDetails";
 import ProductList from "../pages/products/ProductList";
 import ProductDetails from "../pages/products/ProductDetails";
 import AddCategory from "../pages/AddCategory";
+import Overview from "../pages/overview/Overview";
+import BannerEdit from "../pages/BannerEdit";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Dashboard />,
     children: [
+      {
+        path: "/",
+        element: <Overview />,
+      },
+      {
+        path: "banner-edit",
+        element: <BannerEdit />,
+      },
       {
         path: "add-product",
         element: <AddProduct />,

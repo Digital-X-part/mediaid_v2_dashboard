@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { AiOutlineAppstoreAdd } from "react-icons/ai";
@@ -6,15 +7,56 @@ const AddCategory = () => {
   const [category, setCategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
   const [currentSubcategory, setCurrentSubcategory] = useState("");
-  console.log({ currentSubcategory });
+  // console.log({ currentSubcategory });
 
-  const handleSubmit = (e) => {
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     let cate = { name: category, sub: [subcategories] };
+  //     console.log(cate);
+  //     const data  = await axios.post(
+  //       `http://localhost:3000/api/categories`,
+  //       {
+  //         cate,
+  //       }
+  //     );
+
+  //     console.log({ data });
+  //     if (data) {
+  //       toast.success("Successfully toasted!");
+  //     }
+  //     setCategory("");
+  //     setCurrentSubcategory("");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Category: ", category);
-    console.log("Subcategories: ", subcategories);
-    toast.success("Successfully toasted!");
-    setCategory("");
-    setCurrentSubcategory("");
+
+    const { name, sub } = {
+      name: category,
+      sub: subcategories,
+    };
+
+    if (!name || !subcategories) {
+      return toast.error("Please enter a category name");
+    }
+
+    try {
+      const data = await axios.post(`http://localhost:3000/api/categories`, {
+        cate: { name, sub },
+      });
+
+      if (data) {
+        toast.success("Successfully toasted!");
+      }
+      setCategory("");
+      setCurrentSubcategory("");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleAddSubcategory = () => {
@@ -58,7 +100,6 @@ const AddCategory = () => {
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           />
-    
         </div>
         {category && (
           <div className="md:flex items-center mb-4 bg-blue-50 hover:bg-blue-100 py-10 px-4 rounded-2xl">
