@@ -4,31 +4,31 @@ const BannerEdit = () => {
   const images = [];
   return (
     <div>
-      <h3 className=" xl:text-3xl text-xl text-center my-4 text-blue-700 bg-indigo-50 p-2 rounded xl:w-1/3  w-1/2 mx-auto font-bold">
+      {/* <h3 className=" xl:text-3xl text-xl text-center my-4 text-blue-700 bg-indigo-50 p-2 rounded xl:w-1/3  w-1/2 mx-auto font-bold">
         Structure
       </h3>
 
       <div className=" grid grid-cols-2   ">
-        <div className="xl:h-72 h-48 border w-full ">
+        <div className="xl:h-96 h-48 border w-full ">
           <h1 className="xl:text-5xl  lg:text-3xl text-xl  font-semibold text-center  my-16 xl:my-48">
             Banner
           </h1>
         </div>
         <div className="  w-full ">
-          <div className="xl:h-36 h-24 border w-full col-span-1">
+          <div className="xl:h-48 h-30  border w-full col-span-1">
             {" "}
             <h1 className="xl:text-5xl  lg:text-3xl text-xl  font-semibold text-center  my-8">
               push product
             </h1>
           </div>
-          <div className="xl:h-36 h-24 border w-full col-span-1">
+          <div className="xl:h-48 h-30  border w-full col-span-1">
             {" "}
             <h1 className="xl:text-5xl  lg:text-3xl text-xl  font-semibold text-center  my-8">
               push product
             </h1>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div>
         {/* edit part */}
@@ -37,13 +37,13 @@ const BannerEdit = () => {
         </h3>
 
         <div className=" grid grid-cols-2   ">
-          <div className="xl:h-72 h-48 border w-full ">
+          <div className="xl:h-96 h-60 border w-full ">
             <div className="p-2">
-              <label htmlFor="imageInput">
-                <div className="flex items-center justify-center border-2 border-dashed xl:h-60 my-4 h-36 mx-4  rounded-md gap-1">
-                  <AiOutlineCloudUpload size={25} color="gray" />
-                  <span className="text-sm font-semibold text-blue-500">
-                    Browse
+              <label htmlFor="imageInput ">
+                <div className="flex items-center justify-center border-2 border-dashed my-6 xl:h-80 h-40 xl:mx-4 mx-2  rounded-md gap-1">
+                  <AiOutlineCloudUpload size={40} color="gray" />
+                  <span className="text-sm xl:text-xl font-semibold text-blue-500">
+                    Browse Banner Image
                   </span>
                 </div>
               </label>
@@ -96,13 +96,13 @@ const BannerEdit = () => {
             </div>
           </div>
           <div className="  w-full ">
-            <div className="xl:h-36 h-24 border w-full col-span-1">
+            <div className="xl:h-48 h-30  border w-full col-span-1">
               <div className="p-2">
                 <label htmlFor="imageInput">
-                  <div className="flex items-center justify-center border-2 border-dashed  xl:h-32 h-20  rounded-md gap-1">
+                  <div className="flex items-center justify-center border-2 border-dashed  xl:h-40 h-20 xl:my-2 my-1    rounded-md gap-1">
                     <AiOutlineCloudUpload size={25} color="gray" />
-                    <span className="text-sm font-semibold text-blue-500">
-                      Browse
+                    <span className=" text-sm xl:text-xl font-semibold text-blue-500">
+                      Browse Push product Image - 1
                     </span>
                   </div>
                 </label>
@@ -154,13 +154,13 @@ const BannerEdit = () => {
                 </div>
               </div>{" "}
             </div>
-            <div className="xl:h-36 h-24 border w-full col-span-1">
+            <div className="xl:h-48 h-30  border w-full col-span-1">
               <div className="p-2">
                 <label htmlFor="imageInput">
-                  <div className="flex items-center justify-center border-2 border-dashed  xl:h-32 h-20  rounded-md gap-1">
+                  <div className="flex items-center justify-center border-2 border-dashed  xl:h-40 h-20 xl:my-2 my-1    rounded-md gap-1">
                     <AiOutlineCloudUpload size={25} color="gray" />
-                    <span className="text-sm font-semibold text-blue-500">
-                      Browse
+                    <span className="text-sm xl:text-xl font-semibold text-blue-500">
+                      Browse Push product Image - 2
                     </span>
                   </div>
                 </label>
